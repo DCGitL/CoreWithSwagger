@@ -1,8 +1,6 @@
-﻿using System;
+﻿using Dal;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Dal;
 
 namespace CoreWithSwagger.Models
 {

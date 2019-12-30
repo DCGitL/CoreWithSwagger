@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using EmployeeDBDal.Models;
-using Microsoft.AspNetCore.Http;
+﻿using EmployeeDBDal.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace CoreWithSwagger.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     [ApiVersion("1.0")]
     [ApiVersion("2.0")]
@@ -22,6 +18,7 @@ namespace CoreWithSwagger.Controllers
         }
 
         [HttpGet , Route("GetAllDbEmployees")]
+        [MapToApiVersion("2.0")]
         public async Task<IActionResult> GetEmployees()
         {
             var result = await repository.GetDbAsyncEmployees();
@@ -30,6 +27,7 @@ namespace CoreWithSwagger.Controllers
         }
 
         [HttpGet, Route("GetEployeeById/{id:int}") ]
+        [MapToApiVersion("2.0")]
         public async Task<IActionResult> GetEmployee(int id)
         {
             var result = await repository.GetDbAsyncEmployee(id);

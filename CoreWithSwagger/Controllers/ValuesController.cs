@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CoreWithSwagger.Models;
-using Dal;
+﻿using CoreWithSwagger.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CoreWithSwagger.Controllers
 {
-    [Route("api/[controller]")]
+
     [ApiController]
     [ApiVersion("1.0")]
     [ApiVersion("2.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [AllowAnonymous]
     public class ValuesController : ControllerBase
     {
@@ -28,6 +27,7 @@ namespace CoreWithSwagger.Controllers
         [HttpGet]
        [Produces("application/xml")]
       // [Authorize(Roles = "Admin")]
+      [MapToApiVersion("2.0")]
         public  ActionResult<IEnumerable<string>> Get()
         {
             var name = User.Identity.Name;
@@ -39,36 +39,40 @@ namespace CoreWithSwagger.Controllers
         // GET api/values/5
         [HttpGet("{id}")]
         [AllowAnonymous]
+        [MapToApiVersion("1.0")]
         public ActionResult<string> Get(int id)
         { 
             if(id ==0 )
             {
-                throw new ArgumentException($"{id} cannot be 0");
+                throw new ArgumentException($"{id} not valid");
             }
-            return "value";
+            return $"value {id}";
         }
 
         // POST api/values
         [HttpPost]
+        [MapToApiVersion("1.0")]
         public void Post([FromBody] string value)
         {
         }
 
         // PUT api/values/5
         [HttpPut("{id:int}")]
+        [MapToApiVersion("1.0")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
+        [MapToApiVersion("1.0")]
         public void Delete(int id)
         {
         }
 
 
         [HttpGet, Route("Employees/{pageNumber:int}")]
-        //[MapToApiVersion("V2")]
+        [MapToApiVersion("2.0")]
         public async Task<IActionResult> GetEmployee(int pageNumber = 1)
         {
             var result = await repository.GetAsyncEmployee(pageNumber);

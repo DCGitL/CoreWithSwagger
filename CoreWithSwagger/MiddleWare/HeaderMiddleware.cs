@@ -1,12 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Primitives;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Security.Cryptography.X509Certificates;
-using System.Security.Principal;
+using Microsoft.AspNetCore.Http.Extensions;
 using System.Threading.Tasks;
 
 
@@ -27,8 +21,9 @@ namespace CoreWithSwagger.MiddleWare
 
         {
             IHeaderDictionary headers = httpContext.Request.Headers;
-
-
+            var uril1 = httpContext.Request.GetDisplayUrl();
+           
+           
              await _next.Invoke(httpContext);
         }
 

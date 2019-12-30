@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Diagnostics;
+﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Net;
 
 namespace CoreWithSwagger.Controllers
 {
@@ -17,7 +14,7 @@ namespace CoreWithSwagger.Controllers
     {
         [Route("/error")]
       
-        public ActionResult Error([FromServices] IHostingEnvironment webHostEnvironment)
+        public IActionResult Error([FromServices] IHostingEnvironment webHostEnvironment)
         {
             var feature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
             var ex = feature?.Error;

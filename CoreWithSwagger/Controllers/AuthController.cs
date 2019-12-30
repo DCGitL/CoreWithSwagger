@@ -1,14 +1,16 @@
 ﻿using Adventure.Works.Dal;
 using CoreWithSwagger.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace CoreWithSwagger.Controllers
 {
-    
-    [Route("api/[controller]")]
+
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
+    [ApiVersion("2.0")]
     public class AuthController : ControllerBase
     {
         private readonly IUserService userService;
@@ -18,9 +20,12 @@ namespace CoreWithSwagger.Controllers
             this.userService = userService;
         }
         [HttpPost, Route("Login")]
+        [MapToApiVersion("2.0")]
         [AllowAnonymous]
         public async Task< IActionResult> Login([FromBody] User userInfo )
         {
+
+            var url = Request.GetDisplayUrl();
             var user = this.userService.AsyncAuthenticate(userInfo.Username, userInfo.Password);
             if(user == null)
             {
@@ -34,6 +39,7 @@ namespace CoreWithSwagger.Controllers
 
         [HttpGet, Route("AllUsers")]
         [Authorize(Roles ="Admin")]
+        [MapToApiVersion("2.0")]
         public async Task<IActionResult> GetAll()
         {
             var username = User.Identity.Name;
