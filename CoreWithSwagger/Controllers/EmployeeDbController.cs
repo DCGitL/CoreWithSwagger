@@ -1,4 +1,5 @@
 ﻿using EmployeeDBDal.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -8,6 +9,7 @@ namespace CoreWithSwagger.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [ApiVersion("2.0")]
+    [Authorize]
     public class EmployeeDbController : ControllerBase
     {
         private readonly IDbEmployeeRepository repository;

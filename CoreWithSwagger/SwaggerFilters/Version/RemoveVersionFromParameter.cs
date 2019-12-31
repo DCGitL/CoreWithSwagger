@@ -3,7 +3,7 @@ using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Linq;
 
-namespace CoreWithSwagger.SwaggerVersion
+namespace CoreWithSwagger.SwaggerFilters.Version
 {
     public class RemoveVersionFromParameter : IOperationFilter
     {

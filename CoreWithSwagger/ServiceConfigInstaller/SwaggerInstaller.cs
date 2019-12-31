@@ -1,4 +1,5 @@
-﻿using CoreWithSwagger.SwaggerVersion;
+﻿using CoreWithSwagger.SwaggerFilters;
+using CoreWithSwagger.SwaggerFilters.Version;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,6 +34,7 @@ namespace CoreWithSwagger.ServiceConfigInstaller
                 // Apply the filters
                 c.OperationFilter<RemoveVersionFromParameter>();
                 c.DocumentFilter<ReplaceVersionWithValueInPath>();
+                c.OperationFilter<AuthoricationHeaderOperationFilter>();
 
                 c.DocInclusionPredicate((version, desc) =>
                 {
@@ -43,10 +45,6 @@ namespace CoreWithSwagger.ServiceConfigInstaller
                     .SelectMany(attr => attr.Versions);
 
                     return versions.Any(v => $"v{v.ToString()}" == version);
-
-
-                  
-
                 });
 
 

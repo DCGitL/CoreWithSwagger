@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CoreWithSwagger.SwaggerVersion
+namespace CoreWithSwagger.SwaggerFilters.Version
 {
     public class ApiExplorerGroupPerVersionConvention : IControllerModelConvention
     {
