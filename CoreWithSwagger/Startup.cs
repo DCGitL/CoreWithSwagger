@@ -22,6 +22,10 @@ namespace CoreWithSwagger
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            //get the configuration object for the apikey
+            services.Configure<ApiKey>(Configuration.GetSection("ApiKey")); 
+
             //Adding Cross Origin Resource Sharing (CORS) 
             services.AddCors();
 

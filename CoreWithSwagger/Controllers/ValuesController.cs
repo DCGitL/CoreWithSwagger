@@ -1,4 +1,5 @@
-﻿using CoreWithSwagger.Models;
+﻿using CoreWithSwagger.Cache;
+using CoreWithSwagger.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -25,9 +26,10 @@ namespace CoreWithSwagger.Controllers
         }
         // GET api/values
         [HttpGet]
-       [Produces("application/xml")]
+     //  [Produces("application/xml")]
       // [Authorize(Roles = "Admin")]
       [MapToApiVersion("2.0")]
+      [Cached(600)]
         public  ActionResult<IEnumerable<string>> Get()
         {
             var name = User.Identity.Name;
@@ -40,6 +42,7 @@ namespace CoreWithSwagger.Controllers
         [HttpGet("{id}")]
         [AllowAnonymous]
         [MapToApiVersion("1.0")]
+        [Cached(600)]
         public ActionResult<string> Get(int id)
         { 
             if(id ==0 )
@@ -73,6 +76,7 @@ namespace CoreWithSwagger.Controllers
 
         [HttpGet, Route("Employees/{pageNumber:int}")]
         [MapToApiVersion("2.0")]
+        [Cached(600)]
         public async Task<IActionResult> GetEmployee(int pageNumber = 1)
         {
             var result = await repository.GetAsyncEmployee(pageNumber);

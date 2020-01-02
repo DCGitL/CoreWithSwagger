@@ -1,4 +1,5 @@
-﻿using EmployeeDBDal.Models;
+﻿using CoreWithSwagger.Cache;
+using EmployeeDBDal.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -21,6 +22,7 @@ namespace CoreWithSwagger.Controllers
 
         [HttpGet , Route("GetAllDbEmployees")]
         [MapToApiVersion("2.0")]
+        [Cached(600)]
         public async Task<IActionResult> GetEmployees()
         {
             var result = await repository.GetDbAsyncEmployees();
@@ -29,7 +31,8 @@ namespace CoreWithSwagger.Controllers
         }
 
         [HttpGet, Route("GetEployeeById/{id:int}") ]
-        [MapToApiVersion("2.0")]
+        [MapToApiVersion("1.0")]
+        [Cached(600)]
         public async Task<IActionResult> GetEmployee(int id)
         {
             var result = await repository.GetDbAsyncEmployee(id);
