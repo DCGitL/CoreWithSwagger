@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CoreWithSwagger.Models.Entity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data.SqlClient;
@@ -32,6 +33,15 @@ namespace Adventure.Works.Dal
             user.Password = "";
 
             return await Task.FromResult(user);
+        }
+
+
+        public async Task<RefreshToken> GetRefreshToken(string token, string refreshToken)
+        {
+            RefreshToken _refreshToken = new RefreshToken();
+
+
+            return await Task.FromResult(_refreshToken);
         }
 
         public async Task<IEnumerable<User>> GetAsyncAllUsers()
@@ -133,6 +143,7 @@ namespace Adventure.Works.Dal
         public string Email { get; set; }
         public string Password { get; set; }
         public string Token { get; set; }
+        public string RefreshToken { get; set; }
         public List<string> roles { get; set; }
     }
 }

@@ -3,8 +3,11 @@ using CoreWithSwagger.SwaggerFilters.Version;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Swashbuckle.AspNetCore.Filters;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using System;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 
@@ -31,11 +34,13 @@ namespace CoreWithSwagger.ServiceConfigInstaller
                     Version = "v2.0"
                 });
 
+                //c.ExampleFilters();
                 // Apply the filters
                 c.OperationFilter<RemoveVersionFromParameter>();
                 c.DocumentFilter<ReplaceVersionWithValueInPath>();
                 c.OperationFilter<AuthoricationHeaderOperationFilter>();
-
+                //Add the Examples
+               
                 c.DocInclusionPredicate((version, desc) =>
                 {
                     if (!desc.TryGetMethodInfo(out MethodInfo methodInfo))
@@ -47,10 +52,13 @@ namespace CoreWithSwagger.ServiceConfigInstaller
                     return versions.Any(v => $"v{v.ToString()}" == version);
                 });
 
-
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
 
             });
 
+          
         }
     }
 }

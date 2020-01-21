@@ -1,4 +1,5 @@
 ﻿using CoreWithSwagger.Cache;
+using CoreWithSwagger.Infrastructure;
 using CoreWithSwagger.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,7 @@ namespace CoreWithSwagger.Controllers
     [ApiVersion("1.0")]
     [ApiVersion("2.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
-    [AllowAnonymous]
+   
     public class ValuesController : ControllerBase
     {
         private readonly IRepository repository;
@@ -40,7 +41,7 @@ namespace CoreWithSwagger.Controllers
 
         // GET api/values/5
         [HttpGet("{id}")]
-        [AllowAnonymous]
+       
         [MapToApiVersion("1.0")]
         [Cached(600)]
         public ActionResult<string> Get(int id)
@@ -50,6 +51,43 @@ namespace CoreWithSwagger.Controllers
                 throw new ArgumentException($"{id} not valid");
             }
             return $"value {id}";
+        }
+
+
+
+        // GET api/values/5
+        /// <summary>
+        /// Get the Hex value from the Longitude and Latitude GPS location
+        /// </summary>
+        /// <param name="Lat">Latitute value must be greater than zero</param>
+        /// <param name="Long">Longitude value must be lest than zero</param>
+        /// <returns></returns>
+        [HttpGet, Route("GetHexByLatLong/{Lat:LatLongConstraint}/{Long}")]
+        [MapToApiVersion("1.0")]
+        [Cached(600)]
+        public async Task<ActionResult<string>> GetLatLong(double Lat, double Long)
+        {
+            
+            return await Task.FromResult(Ok( $"value{Lat} : {Long}"));
+        }
+
+
+
+        /// <summary>
+        /// Get Employees by pagination this method sends 100 employees per 
+        /// page number
+        /// </summary>
+        /// <response code="200">[Return 100 employees per page]</response>
+        /// <param name="pageNumber">The page number for the current page</param>
+        /// <returns></returns>
+        [HttpGet, Route("Employees/{pageNumber:int}")]
+        [MapToApiVersion("2.0")]
+        [Cached(600)]
+        [Authorize(Roles ="Admin")]
+        public async Task<IActionResult> GetEmployee(int pageNumber = 1)
+        {
+            var result = await repository.GetAsyncEmployee(pageNumber);
+            return Ok(result);
         }
 
         // POST api/values
@@ -73,15 +111,6 @@ namespace CoreWithSwagger.Controllers
         {
         }
 
-
-        [HttpGet, Route("Employees/{pageNumber:int}")]
-        [MapToApiVersion("2.0")]
-        [Cached(600)]
-        public async Task<IActionResult> GetEmployee(int pageNumber = 1)
-        {
-            var result = await repository.GetAsyncEmployee(pageNumber);
-            return Ok(result);
-        }
 
         //[HttpGet, Route("DimEmployees")]
         //public IActionResult GetDimEmployees()

@@ -9,6 +9,7 @@ namespace CoreWithSwagger.Helper
     {
         public string Secret { get; set; }
 
+        public TimeSpan TokenLifeTime { get; set; }
         public string DatabaseConnectionstring { get; set; }
 
     }

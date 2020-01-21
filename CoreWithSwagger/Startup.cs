@@ -1,7 +1,10 @@
-﻿using CoreWithSwagger.MiddleWare;
+﻿using CoreWithSwagger.CustomRouteConstraints;
+using CoreWithSwagger.ExceptionHandling;
+using CoreWithSwagger.MiddleWare;
 using CoreWithSwagger.ServiceConfigInstaller;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -24,7 +27,13 @@ namespace CoreWithSwagger
         {
 
             //get the configuration object for the apikey
-            services.Configure<ApiKey>(Configuration.GetSection("ApiKey")); 
+            services.Configure<ApiKey>(Configuration.GetSection("ApiKey"));
+
+            //Register/Add the RouteConstraints for lat long
+            services.Configure<RouteOptions>(options =>
+            {
+                options.ConstraintMap.Add("LatLongConstraint", typeof(DoubleRouteLatLongConstraint));
+            });
 
             //Adding Cross Origin Resource Sharing (CORS) 
             services.AddCors();
@@ -51,7 +60,7 @@ namespace CoreWithSwagger
 
             //Register the custom middleware 
             app.UseMiddleware<HeaderMiddleware>();
-
+            app.UseMiddleware<GlobalExceptionMiddleware>();
             //Enable Authentication globally for this api
             app.UseAuthentication();
 
@@ -60,6 +69,7 @@ namespace CoreWithSwagger
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
+              
                 c.SwaggerEndpoint("/swagger/v1.0/swagger.json", "v1.0");
                 c.SwaggerEndpoint("/swagger/v2.0/swagger.json", "v2.0");
 

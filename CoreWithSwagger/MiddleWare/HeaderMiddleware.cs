@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
 using System.Net;
@@ -29,7 +27,7 @@ namespace CoreWithSwagger.MiddleWare
 
         {
             IHeaderDictionary headers = httpContext.Request.Headers;
-           
+            
             if(headers.TryGetValue("Apikey", out StringValues values))
             {
                 var apikeysecret = config.Value.Secret;
@@ -47,6 +45,9 @@ namespace CoreWithSwagger.MiddleWare
                     return;
 
                 }
+
+               
+                
              
             }
             var uril1 = httpContext.Request.GetDisplayUrl();

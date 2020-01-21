@@ -1,4 +1,5 @@
 ﻿using CoreWithSwagger.ExceptionHandling;
+using MessageManager.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +20,7 @@ namespace CoreWithSwagger.ServiceConfigInstaller
                 config.ReturnHttpNotAcceptable = true;
                 config.OutputFormatters.Add(new XmlSerializerOutputFormatter());
                 config.Filters.Add(new HttpResponseExceptionFilter()); //Add exception error handler
+                config.Filters.Add(new ApiExceptionFilter());
 
 
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
@@ -49,6 +51,7 @@ namespace CoreWithSwagger.ServiceConfigInstaller
                 option.AssumeDefaultVersionWhenUnspecified = true;
             });
 
+            services.AddEmailMessageService(configuration);
 
         }
     }

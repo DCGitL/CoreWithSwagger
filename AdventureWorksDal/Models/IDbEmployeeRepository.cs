@@ -9,5 +9,7 @@ namespace EmployeeDBDal.Models
     {
         Task<IEnumerable<DbEmployees>> GetDbAsyncEmployees();
         Task<DbEmployees> GetDbAsyncEmployee(int employeeid);
+
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Diagnostics;
+﻿using MessageManager;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +13,12 @@ namespace CoreWithSwagger.Controllers
     [ApiController]
     public class ErrorController : ControllerBase
     {
+        private readonly IMessageServices messageServices;
+
+        public ErrorController(IMessageServices _messageServices)
+        {
+            this.messageServices = _messageServices;
+        }
         [Route("/error")]
       
         public IActionResult Error([FromServices] IHostingEnvironment webHostEnvironment)
@@ -26,6 +33,7 @@ namespace CoreWithSwagger.Controllers
                 Title = isDev ? $"{ex.GetType().Name} : {ex.Message}" : "An error occured.",
                 Detail = isDev ? ex.StackTrace : null,
             };
+            messageServices.SendEmail(ex);
 
             return StatusCode(problemDetails.Status.Value, problemDetails);
         }
@@ -51,6 +59,7 @@ namespace CoreWithSwagger.Controllers
                 Title = ex.GetType().Name,
                 Detail = ex.StackTrace,
             };
+          //  messageServices.SendEmail(ex);
 
             return StatusCode(problemDetails.Status.Value, problemDetails);
         }

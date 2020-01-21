@@ -18,6 +18,7 @@ namespace CoreWithSwagger.ExceptionHandling
                 context.ExceptionHandled = true;
 
             }
+          
         }
 
         public void OnActionExecuting(ActionExecutingContext context)

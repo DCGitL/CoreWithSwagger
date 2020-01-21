@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Authorization;
+﻿using CoreWithSwagger.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace CoreWithSwagger.SwaggerFilters
         public void Apply(Operation operation, OperationFilterContext context)
         {
             var filterDescriptors = context.ApiDescription.ActionDescriptor.FilterDescriptors;
-            bool isAuthorized = filterDescriptors.Select(filterInfo => filterInfo.Filter).Any(filter => filter is AuthorizeFilter);
+            bool isAuthorized = filterDescriptors.Select(filterInfo => filterInfo.Filter).Any(filter => filter is AuthorizeFilter );
             bool allowAnonymous = filterDescriptors.Select(filterInfo => filterInfo.Filter).Any(filter => filter is IAllowAnonymousFilter);
 
             if(isAuthorized && !allowAnonymous)
@@ -25,7 +26,7 @@ namespace CoreWithSwagger.SwaggerFilters
                 operation.Parameters.Add(
                     new NonBodyParameter
                     {
-                        
+                        Description = "JWT Authorization header using the bearer sheme",
                         Name = "Authorization",
                         In = "header",
                         Required = true,

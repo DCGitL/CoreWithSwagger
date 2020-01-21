@@ -8,6 +8,16 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile></DocumentationFile>
   </PropertyGroup>
+  
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <Compile Remove="Migrations\SqlIdentityMigration\20200121141817_Initialcreate.cs" />
+    <Compile Remove="Migrations\SqlIdentityMigration\20200121141817_Initialcreate.Designer.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
@@ -21,6 +31,8 @@
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="2.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="4.0.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="4.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="4.0.1" />
   </ItemGroup>
 
@@ -28,6 +40,11 @@
     <ProjectReference Include="..\Adventure.Works.Dal\Adventure.Works.Dal.csproj" />
     <ProjectReference Include="..\AdventureWorksDal\EmployeeDBDal.csproj" />
     <ProjectReference Include="..\Dal\Dal.csproj" />
+    <ProjectReference Include="..\MessageManager\MessageManager.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="SwaggerFilters\Examples\Request\" />
   </ItemGroup>
 
 </Project>
