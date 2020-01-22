@@ -3,6 +3,7 @@ using CoreWithSwagger.Infrastructure;
 using CoreWithSwagger.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -18,12 +19,12 @@ namespace CoreWithSwagger.Controllers
     public class ValuesController : ControllerBase
     {
         private readonly IRepository repository;
-       
+        private readonly ILogger<ValuesController> logger;
 
-        public ValuesController(IRepository repository)
+        public ValuesController(IRepository repository, ILogger<ValuesController> logger)
         {
             this.repository = repository;
-          
+            this.logger = logger;
         }
         // GET api/values
         [HttpGet]
@@ -67,8 +68,9 @@ namespace CoreWithSwagger.Controllers
         [Cached(600)]
         public async Task<ActionResult<string>> GetLatLong(double Lat, double Long)
         {
-            
-            return await Task.FromResult(Ok( $"value{Lat} : {Long}"));
+            logger.LogInformation($"lat value: {Lat}, long value {Long}");
+
+            return await Task.FromResult(Ok( $"value {Lat} : {Long}"));
         }
 
 

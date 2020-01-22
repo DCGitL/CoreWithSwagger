@@ -80,7 +80,7 @@ namespace CoreWithSwagger.Controllers
 
 
 
-        [HttpGet, Route("AllUsers")]
+        [HttpGet, Route("AllApiUsers")]
         [Authorize(Roles ="Admin")]
         [MapToApiVersion("2.0")]
         public async Task<IActionResult> GetAll()

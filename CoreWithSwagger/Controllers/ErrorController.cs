@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Net;
 
@@ -14,10 +15,12 @@ namespace CoreWithSwagger.Controllers
     public class ErrorController : ControllerBase
     {
         private readonly IMessageServices messageServices;
+        private readonly ILogger<ErrorController> logger;
 
-        public ErrorController(IMessageServices _messageServices)
+        public ErrorController(IMessageServices _messageServices, ILogger<ErrorController> logger)
         {
             this.messageServices = _messageServices;
+            this.logger = logger;
         }
         [Route("/error")]
       
@@ -34,6 +37,7 @@ namespace CoreWithSwagger.Controllers
                 Detail = isDev ? ex.StackTrace : null,
             };
             messageServices.SendEmail(ex);
+            logger.LogError(ex, $"Unhandled exception occured at: {DateTime.Now}", null);
 
             return StatusCode(problemDetails.Status.Value, problemDetails);
         }
@@ -59,6 +63,7 @@ namespace CoreWithSwagger.Controllers
                 Title = ex.GetType().Name,
                 Detail = ex.StackTrace,
             };
+            logger.LogError(ex, $"Unhandled exception occured at: {DateTime.Now}", null);
           //  messageServices.SendEmail(ex);
 
             return StatusCode(problemDetails.Status.Value, problemDetails);
