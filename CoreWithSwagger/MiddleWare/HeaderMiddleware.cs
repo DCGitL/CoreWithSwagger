@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Extensions;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
 using System.Net;
@@ -32,6 +34,8 @@ namespace CoreWithSwagger.MiddleWare
             {
                 var apikeysecret = config.Value.Secret;
 
+                var configuration = httpContext.RequestServices.GetRequiredService<IConfiguration>();
+                var keyval = configuration.GetValue<string>("ApiKey:Secret");
                 if (StringValues.IsNullOrEmpty(values))
                 {
                     

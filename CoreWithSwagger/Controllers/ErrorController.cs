@@ -9,7 +9,7 @@ using System.Net;
 
 namespace CoreWithSwagger.Controllers
 {
-    [ApiExplorerSettings(IgnoreApi = true)]
+    //[ApiExplorerSettings(IgnoreApi = true)]
     [Route("api/[controller]")]
     [ApiController]
     public class ErrorController : ControllerBase

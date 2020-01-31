@@ -34,6 +34,7 @@ namespace CoreWithSwagger.ServiceConfigInstaller
                     Version = "v2.0"
                 });
 
+                
                 //c.ExampleFilters();
                 // Apply the filters
                 c.OperationFilter<RemoveVersionFromParameter>();

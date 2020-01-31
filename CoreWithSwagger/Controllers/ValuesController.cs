@@ -41,7 +41,7 @@ namespace CoreWithSwagger.Controllers
         }
 
         // GET api/values/5
-        [HttpGet("{id}")]
+        [HttpGet("{id:int:min(1)}")]
        
         [MapToApiVersion("1.0")]
         [Cached(600)]

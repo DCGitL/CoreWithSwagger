@@ -31,9 +31,9 @@ namespace CoreWithSwagger.Controllers
         /// <returns></returns>
         [HttpGet , Route("GetAllDbEmployees")]
         [MapToApiVersion("2.0")]
-        [Cached(600)]
+       // [Cached(600)]
         [Produces("application/json")]
-        [SwaggerResponse(200, description:"Get all employees",Type =typeof(IEnumerable<DbEmployees>))]
+      //  [SwaggerResponse(200, description:"Get all employees",Type =typeof(IEnumerable<DbEmployees>))]
         [SwaggerResponseExample(200, typeof(DbEmployeesExamples))]
         public async Task<IActionResult> GetEmployees()
         {
@@ -49,7 +49,7 @@ namespace CoreWithSwagger.Controllers
         /// <returns></returns>
         [HttpGet, Route("GetEployeeById/{id:int}") ]
         [MapToApiVersion("1.0")]
-        [Cached(600)]
+      //  [Cached(600)]
         [SwaggerResponse(200, description: "Get employee", Type = typeof(DbEmployees),Description ="Get a specific DBEmployee")]
         public async Task<IActionResult> GetEmployee(int id)
         {

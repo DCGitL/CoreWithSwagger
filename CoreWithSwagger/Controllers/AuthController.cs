@@ -1,5 +1,6 @@
 ﻿using Adventure.Works.Dal;
 using Adventure.Works.Dal.Entity;
+using CoreWithSwagger.Models.Auth;
 using CoreWithSwagger.Models.Request;
 using CoreWithSwagger.Services;
 using CoreWithSwagger.SwaggerFilters.Examples;
@@ -38,11 +39,11 @@ namespace CoreWithSwagger.Controllers
         [AllowAnonymous]
         [SwaggerResponse(200, description:"Get user Information", Type = typeof(UserJwtToken))]
         [Produces(contentType:"application/json",additionalContentTypes: new string[] {"application/xml"})]
-        public async Task< IActionResult> Login([FromBody] User userInfo )
+        public async Task< IActionResult> Login([FromBody] RequestUser userInfo )
         {
 
             var url = Request.GetDisplayUrl();
-            var user = await this.userService.AsyncAuthenticate(userInfo.Username, userInfo.Password);
+            var user = await this.userService.AsyncAuthenticate(userInfo.UserName, userInfo.Password);
             if(user == null)
             {
                 return BadRequest(new { message = "Username or password is incorect" });
