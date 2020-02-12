@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using System;
 using System.Text;
 
 namespace CoreWithSwagger.SerivceExtensions
@@ -29,10 +30,12 @@ namespace CoreWithSwagger.SerivceExtensions
                 ValidateLifetime = true,
                 RequireExpirationTime = true,
                 AuthenticationType = "Bearer",
+                ClockSkew = TimeSpan.Zero
 
 
             };
 
+           
             //register the jwt token paramether into the services container to get it whenever I need it
             services.AddSingleton(tokenValidationParameters);
 

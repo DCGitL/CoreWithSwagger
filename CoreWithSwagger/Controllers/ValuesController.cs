@@ -81,12 +81,15 @@ namespace CoreWithSwagger.Controllers
         /// </summary>
         /// <response code="200">[Return 100 employees per page]</response>
         /// <param name="pageNumber">The page number for the current page</param>
-        /// <returns></returns>
+        /// <returns>Returns an Array of emplyees for each page that is requested</returns>
+        /// <remarks>
+        /// To access this endpoint this user must have Admin Rights;
+        /// </remarks>
         [HttpGet, Route("Employees/{pageNumber:int}")]
         [MapToApiVersion("2.0")]
         [Cached(600)]
         [Authorize(Roles ="Admin")]
-        public async Task<IActionResult> GetEmployee(int pageNumber = 1)
+        public async Task<ActionResult<IEnumerable<Dal.Employee>>> GetEmployee(int pageNumber = 1)
         {
             var result = await repository.GetAsyncEmployee(pageNumber);
             return Ok(result);

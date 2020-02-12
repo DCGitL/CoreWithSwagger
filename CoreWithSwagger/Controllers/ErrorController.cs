@@ -22,8 +22,8 @@ namespace CoreWithSwagger.Controllers
             this.messageServices = _messageServices;
             this.logger = logger;
         }
+
         [Route("/error")]
-      
         public IActionResult Error([FromServices] IHostingEnvironment webHostEnvironment)
         {
             var feature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();

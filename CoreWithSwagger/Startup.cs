@@ -36,7 +36,15 @@ namespace CoreWithSwagger
             });
 
             //Adding Cross Origin Resource Sharing (CORS) 
-            services.AddCors();
+            services.AddCors( options => 
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowAnyOrigin()
+                    .AllowCredentials()
+                    .SetIsOriginAllowed((host) => true));
+            } );
 
             services.AddInstaller(Configuration);
 
@@ -75,11 +83,8 @@ namespace CoreWithSwagger
 
             });
 
-            // global cors policy
-            app.UseCors(x => x
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader());
+            // global cors policy make sure it is applied before Usemvc
+            app.UseCors("CorsPolicy");
 
          
 

@@ -15,8 +15,16 @@
   </PropertyGroup>
   
   <ItemGroup>
+    <Compile Remove="Migrations\SqlRefreshTokenMigrations\**" />
+    <Content Remove="Migrations\SqlRefreshTokenMigrations\**" />
+    <EmbeddedResource Remove="Migrations\SqlRefreshTokenMigrations\**" />
+    <None Remove="Migrations\SqlRefreshTokenMigrations\**" />
+  </ItemGroup>
+  
+  <ItemGroup>
     <Compile Remove="Migrations\SqlIdentityMigration\20200121141817_Initialcreate.cs" />
     <Compile Remove="Migrations\SqlIdentityMigration\20200121141817_Initialcreate.Designer.cs" />
+    <Compile Remove="Models\Refresh.Token.DBContext\RefreshTokenDbContext.cs" />
   </ItemGroup>
 
   <ItemGroup>

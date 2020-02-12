@@ -5,6 +5,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
+using Microsoft.IdentityModel.Tokens;
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -17,6 +21,7 @@ namespace CoreWithSwagger.MiddleWare
         private readonly RequestDelegate _next;
         private readonly IOptions<ApiKey> config;
 
+        private string invalidTokenMsg = string.Empty;
 
         public HeaderMiddleware(RequestDelegate next, IOptions<ApiKey> _config)
         {
@@ -55,13 +60,70 @@ namespace CoreWithSwagger.MiddleWare
              
             }
             var uril1 = httpContext.Request.GetDisplayUrl();
+
            
+
+            if(headers.TryGetValue("Authorization", out StringValues authValues ))
+            {
+                if (authValues[0].Contains("Bearer"))
+                {
+                    string[] tokenval = authValues[0].Split(" ".ToArray());
+                    if(tokenval.Length == 2)
+                    {
+                        var jwttokenParameters = httpContext.RequestServices.GetRequiredService<TokenValidationParameters>();
+
+                        var jwtToken = tokenval[1];
+                        bool isTokenExpired =  ValidateJwtTokenExpirationTime(jwttokenParameters, jwtToken);
+                        if(isTokenExpired)
+                        {
+                            var tokenmsg = "This token is expired";
+                            if(!String.IsNullOrEmpty(invalidTokenMsg))
+                            {
+                                tokenmsg = invalidTokenMsg;
+                            }
+                            httpContext.Response.Headers.Add("TokenExpire", tokenmsg);
+                            httpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                            return;
+                        }
+                    };
+                }
+            }
            
              await _next.Invoke(httpContext);
         }
 
        
+        private bool ValidateJwtTokenExpirationTime(TokenValidationParameters tokenParameters, string token)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
 
+
+            try
+            {
+                
+                var claimsPrincipal = tokenHandler.ValidateToken(token, tokenParameters, out var _validatedToken);
+
+                var exptime = claimsPrincipal.Claims.Single(x => x.Type == JwtRegisteredClaimNames.Exp).Value;
+
+                var expiryDateUnix = long.Parse(exptime);
+
+                var expiryDateTimeUtc = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+                                           .AddSeconds(expiryDateUnix);
+
+
+                if (expiryDateTimeUtc > DateTime.UtcNow)
+                {
+                    return false;
+                }
+
+                 return true;
+            }
+            catch
+            {
+                invalidTokenMsg = "This token is invalid";
+                return false;
+            }
+        }
 
        
     }

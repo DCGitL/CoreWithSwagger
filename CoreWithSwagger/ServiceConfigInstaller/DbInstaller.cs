@@ -1,6 +1,7 @@
 ﻿using CoreWithSwagger.Helper;
 using CoreWithSwagger.Models;
 using CoreWithSwagger.Models.IdentityDbContext;
+using CoreWithSwagger.Models.Refresh.Token.DBContext;
 using CoreWithSwagger.SerivceExtensions;
 using CoreWithSwagger.Services;
 using EmployeeDBDal.Services;
@@ -16,7 +17,9 @@ namespace CoreWithSwagger.ServiceConfigInstaller
     {
         public void InstallServices(IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<AppIdentityDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("EmployDbStore")));
+            services.AddDbContextPool<AppIdentityDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("EmployDbStore")));
+
+            //add Identity configuration
             services.AddIdentity<ApplicationUser, IdentityRole>(options => {
                 options.Password.RequireDigit = false;
                 options.Password.RequiredLength = 5;
@@ -43,8 +46,7 @@ namespace CoreWithSwagger.ServiceConfigInstaller
                 options.DatabaseConnectionstring = employeeStoreConnectionstring;
             });
 
-
-
+         
 
             //configure the jwt authentication
             services.AddJwtService(configuration);

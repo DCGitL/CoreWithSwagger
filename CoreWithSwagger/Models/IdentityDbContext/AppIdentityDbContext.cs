@@ -1,4 +1,5 @@
 ﻿
+using CoreWithSwagger.Models.Refresh.Token.DBContext.Entity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,5 +11,7 @@ namespace CoreWithSwagger.Models.IdentityDbContext
         {
 
         }
+
+        public DbSet<JwtRefreshToken> JwtRefreshTokens { get; set; }
     }
 }

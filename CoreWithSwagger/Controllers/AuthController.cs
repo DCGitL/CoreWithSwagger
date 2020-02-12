@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Swashbuckle.AspNetCore.Annotations;
 using Swashbuckle.AspNetCore.Filters;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace CoreWithSwagger.Controllers
@@ -29,8 +30,7 @@ namespace CoreWithSwagger.Controllers
 
         /// <summary>
         /// Authenticate users
-        /// </summary>
-      
+        /// </summary> 
         /// <param name="userInfo"></param>
         /// <returns></returns>
 
@@ -39,7 +39,7 @@ namespace CoreWithSwagger.Controllers
         [AllowAnonymous]
         [SwaggerResponse(200, description:"Get user Information", Type = typeof(UserJwtToken))]
         [Produces(contentType:"application/json",additionalContentTypes: new string[] {"application/xml"})]
-        public async Task< IActionResult> Login([FromBody] RequestUser userInfo )
+        public async Task<ActionResult<UserJwtToken>> Login([FromBody] RequestUser userInfo )
         {
 
             var url = Request.GetDisplayUrl();
@@ -62,29 +62,35 @@ namespace CoreWithSwagger.Controllers
         [HttpPost, Route("RefreshToken")]
         [MapToApiVersion("2.0")]
         [AllowAnonymous]
-        [SwaggerResponse(200, description: "Get user Information", Type = typeof(User))]
+        //[SwaggerResponse(200, description: "Get user Information", Type = typeof(User))]
         [Produces(contentType: "application/json", additionalContentTypes: new string[] { "application/xml" })]
-        public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest refreshToken)
+        public async Task<ActionResult<RefreshTokenResponse>> RefreshToken([FromBody] RefreshTokenRequest refreshToken)
         {
 
             var url = Request.GetDisplayUrl();
             var tokenRefresh = await this.userService.RefreshTokenAsyc(refreshToken.Token, refreshToken.RefreshToken);
             if (tokenRefresh == null)
             {
-                return BadRequest(new { message = "Username or password is incorect" });
+                return BadRequest(new { message = "Unable to create refreshed token" });
             }
-
-
+            
             return Ok(tokenRefresh);
 
         }
 
 
-
+        /// <summary>
+        /// Get all the users that have access to this api
+        /// </summary>
+        /// <returns>An Array of Users with roles</returns>
+        /// <remarks>
+        /// Note to access this endpoint this user must have admin rights
+        /// </remarks>
         [HttpGet, Route("AllApiUsers")]
         [Authorize(Roles ="Admin")]
         [MapToApiVersion("2.0")]
-        public async Task<IActionResult> GetAll()
+        [Produces(contentType: "application/json", additionalContentTypes: new string[] { "application/xml" })]
+        public async Task<ActionResult<IEnumerable<User>> > GetAll()
         {
             var username = User.Identity.Name;
             var isroleAdmin =  User.IsInRole("Admin");

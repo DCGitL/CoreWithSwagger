@@ -31,7 +31,7 @@ namespace CoreWithSwagger.SwaggerFilters
                         In = "header",
                         Required = true,
                         Type = "string",
-                        Default = "Bearer"
+                        Default = "Bearer "
 
                     });
             }
