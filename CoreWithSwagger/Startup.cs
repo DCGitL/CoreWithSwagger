@@ -67,7 +67,7 @@ namespace CoreWithSwagger
             }
 
             //Register the custom middleware 
-            app.UseMiddleware<HeaderMiddleware>();
+            app.UseAuthenticationMiddleware();  // this adds the HeaderMiddleware by using extension method
             app.UseMiddleware<GlobalExceptionMiddleware>();
             //Enable Authentication globally for this api
             app.UseAuthentication();
