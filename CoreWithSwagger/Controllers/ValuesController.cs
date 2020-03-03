@@ -32,11 +32,11 @@ namespace CoreWithSwagger.Controllers
       // [Authorize(Roles = "Admin")]
       [MapToApiVersion("2.0")]
       [Cached(600)]
-        public  ActionResult<IEnumerable<string>> Get()
+        public async Task<ActionResult<IEnumerable<string>>> Get()
         {
             var name = User.Identity.Name;
-            var result = new string[] { "value1", "value2", name };
-            return result;
+            var result = await Task.FromResult( new string[] { "value1", "value2", name });
+            return Ok(result);
          
         }
 

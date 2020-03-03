@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmployeeDBDal", "AdventureW
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Adventure.Works.Dal", "Adventure.Works.Dal\Adventure.Works.Dal.csproj", "{9CA632F1-847E-46E3-B7C5-13CAFC9033E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessageManager", "MessageManager\MessageManager.csproj", "{743E88D1-1D3A-4DFC-B4EA-06F9D6B8AE3B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageManager", "MessageManager\MessageManager.csproj", "{743E88D1-1D3A-4DFC-B4EA-06F9D6B8AE3B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreWithSwagger.IntegrationTest", "CoreWithSwagger.IntegrationTest\CoreWithSwagger.IntegrationTest.csproj", "{DE3911BD-83AB-4299-A324-58BA4D4B43FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{743E88D1-1D3A-4DFC-B4EA-06F9D6B8AE3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{743E88D1-1D3A-4DFC-B4EA-06F9D6B8AE3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{743E88D1-1D3A-4DFC-B4EA-06F9D6B8AE3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE3911BD-83AB-4299-A324-58BA4D4B43FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE3911BD-83AB-4299-A324-58BA4D4B43FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE3911BD-83AB-4299-A324-58BA4D4B43FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE3911BD-83AB-4299-A324-58BA4D4B43FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

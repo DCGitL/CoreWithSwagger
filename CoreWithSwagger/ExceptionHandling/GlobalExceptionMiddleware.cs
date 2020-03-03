@@ -22,6 +22,7 @@ namespace CoreWithSwagger.ExceptionHandling
 
         public async Task Invoke(HttpContext httpContext)
         {
+           
             var sendEmail = httpContext.RequestServices.GetService(typeof(IMessageServices)) as MessageSerivces;
             //try
             //{ 
