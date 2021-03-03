@@ -172,7 +172,7 @@ namespace CoreWithSwagger.Services
                 //token is invalid
                 return new RefreshTokenResponse { Errors = new[] { "Invalid Token " } };
             }
-            _tokenValidationParameters.RequireExpirationTime = true;
+            _tokenValidationParameters.ValidateLifetime = true;
 
             var exptime = validatedToken.Claims.Single(x => x.Type == JwtRegisteredClaimNames.Exp).Value;
 

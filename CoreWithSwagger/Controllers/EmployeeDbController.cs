@@ -2,6 +2,7 @@
 using CoreWithSwagger.SwaggerFilters.Examples.Response;
 using EmployeeDBDal;
 using EmployeeDBDal.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -16,7 +17,7 @@ namespace CoreWithSwagger.Controllers
     [ApiController]
     [ApiVersion("1.0")]
     [ApiVersion("2.0")]
-    [Authorize]
+    [Authorize(AuthenticationSchemes= JwtBearerDefaults.AuthenticationScheme)]
     public class EmployeeDbController : ControllerBase
     {
         private readonly IDbEmployeeRepository repository;
